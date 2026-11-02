@@ -9,6 +9,24 @@
 #include "Render/Renderer.hpp"
 #include "Render/TextureLoader.hpp"
 
+// 📌 ОСЬ СЮДИ ВСТАВЛЯЄТЬСЯ ВИХІДНИЙ КОД ШЕЙДЕРІВ:
+const char* voxelVertexShaderSrc = 
+    "attribute vec3 aPos;\n"
+    "attribute vec2 aTexCoord;\n"
+    "varying vec2 TexCoord;\n"
+    "uniform mat4 uMVP;\n"
+    "void main() {\n"
+    "   gl_Position = uMVP * vec4(aPos, 1.0);\n"
+    "   TexCoord = aTexCoord;\n"
+    "}\n";
+
+const char* voxelFragmentShaderSrc = 
+    "varying vec2 TexCoord;\n"
+    "uniform sampler2D uTexture;\n"
+    "void main() {\n"
+    "   gl_FragColor = texture2D(uTexture, TexCoord);\n"
+    "}\n";
+
 int main(int argc, char* argv[]) {
     std::cout << "=== INITIALIZING FINAL LUANTI-STYLE NATIVE ENGINE ===" << std::endl;
 
