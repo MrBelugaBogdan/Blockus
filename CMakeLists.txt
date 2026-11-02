@@ -1,28 +1,50 @@
-cmake_minimum_required(VERSION 3.14)
-project(VoxelEngine)
+#pragma once
+#include <GLFW/glfw3.h>
+#include <iostream>
 
-set(CMAKE_CXX_STANDARD 17)
+class Window {
+private:
+    GLFWwindow* window;
+    int width, height;
 
-# Автоматичне завантаження бібліотеки GLFW через CMake FetchContent
-include(FetchContent)
-FetchContent_Declare(
-    glfw
-    GIT_REPOSITORY https://github.com/glfw/glfw.git
-    GIT_TAG 3.3.8
-)
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(glfw)
+public:
+    Window(int w, int h, const char* title) : width(w), height(h) {
+        if (!glfwInit()) {
+            std::cerr << "Failed to initialize GLFW!" << std::endl;
+            exit(-1);
+        }
 
-add_executable(VoxelEngine
-    src/main.cpp
-)
+        // Налаштування OpenGL контексту
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-# Підключаємо GLFW до нашого проєкту
-target_link_libraries(VoxelEngine PRIVATE glfw)
+        window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+        if (!window) {
+            std::cerr << "Failed to create GLFW window!" << std::endl;
+            glfwTerminate();
+            exit(-1);
+        }
 
-# Підключаємо OpenGL залежно від операційної системи (для Windows)
-if(WIN32)
-    target_link_libraries(VoxelEngine PRIVATE opengl32)
-endif()
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(1); // Вмикаємо VSync (обмеження кадрів)
+    }
+
+    ~Window() {
+        glfwDestroyWindow(window);
+        glfwTerminate();
+    }
+
+    bool shouldClose() {
+        return glfwWindowShouldClose(window);
+    }
+
+    void swapBuffers() {
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    bool isKeyPressed(int key) {
+        return glfwGetKey(window, key) == GLFW_PRESS;
+    }
+};
