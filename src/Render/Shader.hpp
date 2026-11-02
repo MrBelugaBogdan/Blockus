@@ -33,4 +33,14 @@ public:
     void use() {
         glUseProgram(id);
     }
+
+    void setMat4(const std::string& name, const float* mat) const {
+        GLint loc = glGetUniformLocation(id, name.c_str());
+        glUniformMatrix4fv(loc, 1, GL_FALSE, mat);
+    }
+
+    void setInt(const std::string& name, int value) const {
+        GLint loc = glGetUniformLocation(id, name.c_str());
+        glUniform1i(loc, value);
+    }
 };
