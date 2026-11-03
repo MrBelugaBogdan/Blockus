@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
 
-# Завантажуємо SDL2 для вікон і подій
+# Завантажуємо SDL2
 FetchContent_Declare(
     SDL2
     GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
@@ -13,7 +13,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(SDL2)
 
-# Завантажуємо GLM (математична бібліотека для 3D у C++)
+# Завантажуємо SDL2_mixer для звуків
+FetchContent_Declare(
+    SDL_mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+    GIT_TAG release-2.6.3
+)
+FetchContent_MakeAvailable(SDL_mixer)
+
+# Завантажуємо GLM для 3D математики
 FetchContent_Declare(
     glm
     GIT_REPOSITORY https://github.com/g-truc/glm.git
@@ -23,7 +31,7 @@ FetchContent_MakeAvailable(glm)
 
 add_executable(VoxelEngine src/main.cpp)
 
-target_link_libraries(VoxelEngine PRIVATE SDL2::SDL2 glm::glm)
+target_link_libraries(VoxelEngine PRIVATE SDL2::SDL2 SDL2_mixer::SDL2_mixer glm::glm)
 
 if(WIN32)
     target_link_libraries(VoxelEngine PRIVATE opengl32)
