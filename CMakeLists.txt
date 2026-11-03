@@ -20,6 +20,11 @@ FetchContent_Declare(
     GIT_TAG release-2.6.3
 )
 set(SDLMIXER_OPUS OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MOD OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MIDI OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_FLAC OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MP3 OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_OGG OFF CACHE BOOL "" FORCE)E)
 FetchContent_MakeAvailable(SDL_mixer)
 
 # Завантажуємо GLM для 3D математики
