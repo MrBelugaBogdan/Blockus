@@ -18,29 +18,28 @@ public:
     Player(glm::vec3 startPos) {
         position = startPos;
         velocity = glm::vec3(0.0f);
-        gameMode = GameMode::Creative; // За замовчуванням у креативі для зручності тестів
+        gameMode = GameMode::Creative; // Починаємо в креативі для зручності
         isGrounded = false;
         eyeHeight = 1.62f;
-        speed = 5.0f;
+        speed = 6.0f;
     }
 
-    // Перемикання режиму гри (наприклад, по натисканню клавіші)
     void toggleGameMode() {
         if (gameMode == GameMode::GameMode::Survival) {
             gameMode = GameMode::Creative;
             velocity = glm::vec3(0.0f);
         } else {
-            gameMode = GameMode::GameMode::Survival;
+            gameMode = GameMode::Survival;
         }
     }
 
     void update(float deltaTime) {
         if (gameMode == GameMode::Survival) {
-            // У виживанні діє гравітація
-            velocity.y -= 25.0f * deltaTime; // Прискорення вільного падіння
+            // У виживанні працює гравітація
+            velocity.y -= 25.0f * deltaTime;
             position.y += velocity.y * deltaTime;
 
-            // Тимчасова перевірка землі (надалі зв'яжемо з колізіями світу)
+            // Тимчасова підлога на висоті 10
             if (position.y < 10.0f) {
                 position.y = 10.0f;
                 velocity.y = 0.0f;
@@ -49,8 +48,8 @@ public:
                 isGrounded = false;
             }
         } else {
-            // У креативі немає гравітації, гравець просто летить у просторі
-            velocity = glm::vec3(0.0f);
+            // У креативі зупиняємо вертикальну швидкість для польоту
+            velocity.y = 0.0f;
         }
     }
 };
