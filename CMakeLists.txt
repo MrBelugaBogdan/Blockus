@@ -4,9 +4,14 @@ project(VoxelEngine CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Увімкнення вбудованого збирання залежностей SDL_mixer (вирішує проблему відсутності opusfile в хмарі)
-set(SDLMIXER_VENDORED ON CACHE BOOL "" FORCE)
-set(SDLMIXER_DEPS_SHARED OFF CACHE BOOL "" FORCE)
+# Повністю вимикаємо всі залежності та підтримку музичних форматів SDL_mixer, щоб уникнути пошуку opusfile
+set(SDLMIXER_VENDORED OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_OPUS OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MOD OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MIDI OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_FLAC OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_MP3 OFF CACHE BOOL "" FORCE)
+set(SDLMIXER_OGG OFF CACHE BOOL "" FORCE)
 
 include(FetchContent)
 
