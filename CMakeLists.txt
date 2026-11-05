@@ -4,7 +4,8 @@ project(VoxelEngine CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Примусово вимикаємо зайві аудіокодеки SDL_mixer, щоб уникнути помилок пошуку бібліотек у хмарі
+# Примусово вимикаємо зайві аудіокодеки та залежності SDL_mixer для хмари
+set(SDLMIXER_DEPS_SHARED OFF CACHE BOOL "" FORCE)
 set(SDLMIXER_OPUS OFF CACHE BOOL "" FORCE)
 set(SDLMIXER_MOD OFF CACHE BOOL "" FORCE)
 set(SDLMIXER_MIDI OFF CACHE BOOL "" FORCE)
@@ -48,7 +49,7 @@ target_link_libraries(VoxelEngine PRIVATE
     OpenGL::GL
 )
 
-# Додаємо шляхи до заголовків (для GLM та інших)
+# Додаємо шляхи до заголовків
 target_include_directories(VoxelEngine PRIVATE 
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     /usr/include
